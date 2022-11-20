@@ -9,6 +9,11 @@
 </main>
 
 <style>
+	
+	/* Global Style: */
+	:global(h4){
+		color: green;
+	}
 	main {
 		text-align: center;
 		padding: 1em;
@@ -28,4 +33,5 @@
 			max-width: none;
 		}
 	}
+
 </style>
