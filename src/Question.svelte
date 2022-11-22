@@ -47,7 +47,8 @@
 
 <!-- If the question is answered, show this. Otherwise DON'T show: -->
 {#if isAnswered}
-    <h5>
+    <!-- If isCorrect is true, the class of the h5 element will be "isCorrect" -->
+    <h5 class:isCorrect>
         {#if isCorrect}
         You are CORRECT!
         {:else}
@@ -73,4 +74,13 @@
     </div>
 {/if}
 
+<style>
+    h5 {
+        color: maroon;
+    }
+
+    .isCorrect {
+        color: teal;
+    }
+</style>
 
