@@ -1,63 +1,59 @@
 <script>
     import Question from "./Question.svelte"
-    // export let quizName = "Corey Quiz" //use let (not const!) if you're planning to make quizName reassignable
 
-    // let title = "TITLE";
-    // let a = 1;
-    // let b = 2;
-    // let result = "";
-    // let correctAnswer = "b"
-    // let answers = ["a", "b", "c", "d"]
+
+    let activeQuestion = 0;
+    let score = 0;
     let quiz = getQuiz();  //quiz is a promise object from the API. We have to await this since it is going to be asynchronous
 
-    // function pickAnswer(answer){
-    //     if (answer === correctAnswer){
-    //         return result = "Correct!"
-    //     }
-    //     result = "OOPS"
-    // }
-
+    //Async function to grab a quiz from the API
     async function getQuiz() {
         const res = await fetch('https://opentdb.com/api.php?amount=10&type=multiple')
         const quiz = await res.json();
         return quiz;
     }
 
-    function handleClick() {
-        quiz = getQuiz();
+    //Function to get a new quiz
+
+
+    //Function to advance to the next question! That way you can only answer ONCE:
+    function nextQuestion() {
+        activeQuestion = activeQuestion + 1;
+
+    }
+
+    // Function to reset the score to 0:
+    function resetQuiz() {
+        score = 0;
+        quiz = getQuiz()
+    }
+
+    //Function to add 1 to the score:
+    function addToScore() {
+        score++; 
+
     }
 
 
 </script>
 
 <div>
-    <!-- <h2>{quizName}:</h2> -->
-    <!-- <h4>{title}</h4>
-    <input bind:value={title} type="text" /> -->
-    <!-- <input type="number" bind:value={a}>
-    <input type="number" bind:value={b}>
-    <h4>{a + b}</h4> -->
-    <button on:click={handleClick}>Fetch Quiz</button> 
-    <!-- on:click should trigger handleClick, that way everytime it clicks, it can update with the new trivia question. -->
+    <button on:click={resetQuiz}>Fetch a New Quiz</button> 
 
-    <!-- {#if result}
-        <h4>{result}</h4>
-    {:else}
-        <h5>Please pick an answer.</h5>
-    {/if} -->
+    <h3>My Score: {score}</h3>
+    <h4>Question #{activeQuestion + 1} </h4>
 
-    <!-- without await, results[0] will be undefined. We need to await the promise! -->
     {#await quiz}
-        <h3 class="loading">loading . . .</h3>
+        <h3 class="loading">Loading . . .</h3>
     {:then data} 
-        {#each data.results as question}
-            <Question {question} />
+
+        {#each data.results as question, index}
+            {#if index === activeQuestion}
+                <Question {addToScore}{nextQuestion}{question} />
+            {/if}
         {/each}
     {/await}
-    <!-- <button on:click={() => pickAnswer("a")}>Answer A</button>
-    <button on:click={() => pickAnswer("b")}>Answer B</button>
-    <button on:click={() => pickAnswer("c")}>Answer C</button>
-    <button on:click={() => pickAnswer("d")}>Answer D</button> -->
+
 </div>
 
 <style>
