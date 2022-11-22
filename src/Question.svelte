@@ -58,7 +58,7 @@
 {/if}
 
 {#each allAnswers as answer}
-    <button on:click={() => checkQuestion(answer.correct)}>
+    <button class="answer" on:click={() => checkQuestion(answer.correct)}>
         <!-- answer.answer meaning the answer object and the (dot).answer property of answer -->
         {@html answer.answer}
 
@@ -80,6 +80,20 @@
     }
 
     .isCorrect {
+        color: teal;
+    }
+
+    .answer{
+        display: block;
+        color: coral;
+        background-color: white;
+        border-radius: 10px;
+        transition: 0.2s;
+        min-width: 3rem;
+    }
+
+    .answer:hover {
+        cursor: pointer;
         color: teal;
     }
 </style>
